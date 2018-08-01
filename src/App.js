@@ -7,6 +7,14 @@ import blogService from './services/blogs'
 import loginService from './services/login'
 import Togglable from './components/Togglable'
 
+const appStyle = {
+  backgroundColor: '#f0f0f0',
+  display: 'flex',
+  flexDirection: 'column',
+  flexGrow: 1,
+  padding: '1em 2em',
+}
+
 class App extends React.Component {
   constructor(props) {
     super(props)
@@ -16,6 +24,7 @@ class App extends React.Component {
       password: '',
       error: null,
       currentUser: null,
+      addedBlog: null,
       blogs: []
     }
   }
@@ -24,8 +33,21 @@ class App extends React.Component {
     this.setState({ [event.target.name]: event.target.value })
   }
 
+  addLike = async (blog) => {
+    const updatedBlog = { ...blog, likes: blog.likes + 1 }
+    await blogService.update(updatedBlog)
+    const newBlogs = this.state.blogs.map(blog => blog._id === updatedBlog._id ? updatedBlog : blog)
+    this.setState({ blogs: newBlogs })
+  }
+
   handleCreateBlog = (blog) => {
-    this.setState({ blogs: [ ...this.state.blogs, blog ] })
+    this.setState({
+      blogs: [ ...this.state.blogs, blog ],
+      addedBlog: blog,
+    })
+    setTimeout(() => {
+      this.setState({ addedBlog: null })
+    }, 5000)
   }
 
   logout() {
@@ -63,9 +85,12 @@ class App extends React.Component {
 
   render() {
     return (
-      <div>
+      <div style={appStyle}>
         {this.state.error !== null && (
           <Notification error message={this.state.error} />
+        )}
+        {this.state.addedBlog !== null && (
+          <Notification message={`Added new blog ${this.state.addedBlog.title}!`} />
         )}
         {this.state.currentUser === null && (
           <Login
@@ -82,7 +107,7 @@ class App extends React.Component {
               {this.state.currentUser.name} logged in
               <input type="button" value="logout" onClick={this.logout} />
             </p>
-            {this.state.blogs.map(blog => <Blog key={blog._id} blog={blog} />)}
+            {this.state.blogs.map(blog => <Blog key={blog._id} blog={blog} addLike={this.addLike} />)}
             <Togglable buttonLabel="Add blog">
               <AddBlog onCreate={this.handleCreateBlog} />
             </Togglable>

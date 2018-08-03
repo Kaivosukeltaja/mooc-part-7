@@ -36,17 +36,20 @@ class Blog extends React.Component {
   toggleDetails = () => {
     this.setState({ showDetails: !this.state.showDetails })
   }
+
+  deleteBlog = () => { this.props.deleteBlog(this.props.blog) }
   
   render() {
     return (
-      <div style={blogStyle}>
+      <div className="blog" style={blogStyle}>
         <div
+          className="blog__title"
           style={blogHeadingStyle}
           onClick={this.toggleDetails}  
         >
           {this.props.blog.title} {this.props.blog.author}
         </div>
-        <div 
+        <div className="blog__details" 
           style={this.state.showDetails ? visibleDetails : hiddenDetails}
         >
           <div><a href={this.props.blog.url}>{this.props.blog.url}</a></div>
@@ -54,6 +57,9 @@ class Blog extends React.Component {
             <div>Added by { this.props.blog.user.name }</div>
           }
           <div>Likes: {this.props.blog.likes} <button onClick={this.addLike}>Like</button></div>
+          { this.props.deleteBlog &&
+            <button onClick={this.deleteBlog}>Delete</button>
+          }
         </div>
       </div>
     )
@@ -62,6 +68,7 @@ class Blog extends React.Component {
 
 Blog.propTypes = {
   addLike: PropTypes.func.isRequired,
+  deleteBlog: PropTypes.func,
   blog: PropTypes.shape({
     title: PropTypes.string.isRequired,
     author: PropTypes.string.isRequired,

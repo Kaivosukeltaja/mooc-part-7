@@ -7,6 +7,15 @@ module.exports = {
       "eslint:recommended",
       "plugin:react/recommended"
     ],
+    "globals": {
+        "jest": true,
+        "test": true,
+        "it": true,
+        "expect": true,
+        "describe": true,
+        "beforeAll": true,
+        "afterAll": true
+    },    
     "parser": "babel-eslint",
     "parserOptions": {
         "ecmaFeatures": {

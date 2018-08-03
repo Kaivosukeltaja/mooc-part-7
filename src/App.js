@@ -52,7 +52,15 @@ class App extends React.Component {
 
   logout() {
     this.setState({ currentUser: null })
+    blogService.setToken(null)
     window.localStorage.clear()
+  }
+
+  deleteBlog = async (blog) => {
+    if (window.confirm(`Really delete ${blog.title} by ${blog.author}?`)) {
+      await blogService.deleteBlog(blog)
+      this.setState({ blogs: this.state.blogs.filter(b => b._id !== blog._id) })
+    }
   }
 
   handleLoginSubmit = async (event) => {
@@ -63,6 +71,7 @@ class App extends React.Component {
         password: this.state.password
       })
       this.setState({ currentUser: result })
+      blogService.setToken(result.token)
       window.localStorage.setItem('currentUser', JSON.stringify(result))
     } catch (error) {
       this.setState({ error: 'Invalid username or password!' })
@@ -84,6 +93,7 @@ class App extends React.Component {
   }
 
   render() {
+    const blogs = this.state.blogs.sort((a, b) => a.likes >= b.likes ? -1 : 1)
     return (
       <div style={appStyle}>
         {this.state.error !== null && (
@@ -107,7 +117,14 @@ class App extends React.Component {
               {this.state.currentUser.name} logged in
               <input type="button" value="logout" onClick={this.logout} />
             </p>
-            {this.state.blogs.map(blog => <Blog key={blog._id} blog={blog} addLike={this.addLike} />)}
+            {blogs.map(blog => (
+              <Blog 
+                key={blog._id}
+                blog={blog} 
+                addLike={this.addLike}
+                deleteBlog={(!blog.user || this.state.currentUser.id === blog.user._id) ? this.deleteBlog : undefined}
+              />
+            ))}
             <Togglable buttonLabel="Add blog">
               <AddBlog onCreate={this.handleCreateBlog} />
             </Togglable>

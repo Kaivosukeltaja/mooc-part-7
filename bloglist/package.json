@@ -6,7 +6,11 @@
     "axios": "^0.17.1",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
-    "react-scripts": "1.0.17"
+    "react-navigation": "^2.11.2",
+    "react-redux": "^5.0.7",
+    "react-scripts": "1.0.17",
+    "redux": "^4.0.0",
+    "redux-thunk": "^2.3.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -14,7 +18,7 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
-  "proxy": "http://localhost:3003",
+  "proxy": "http://localhost:3001",
   "devDependencies": {
     "babel-eslint": "^8.2.6",
     "enzyme": "^3.3.0",

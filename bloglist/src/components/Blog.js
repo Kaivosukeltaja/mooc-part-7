@@ -1,5 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { addLike } from '../actions/blogs'
 
 const blogStyle = {
   backgroundColor: '#ffffff',
@@ -66,19 +68,25 @@ class Blog extends React.Component {
   }
 }
 
+export const blogShape = PropTypes.shape({
+  title: PropTypes.string.isRequired,
+  author: PropTypes.string.isRequired,
+  likes: PropTypes.number.isRequired,
+  url: PropTypes.string.isRequired,
+  user: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    username: PropTypes.string.isRequired,
+  })
+})
+
 Blog.propTypes = {
   addLike: PropTypes.func.isRequired,
   deleteBlog: PropTypes.func,
-  blog: PropTypes.shape({
-    title: PropTypes.string.isRequired,
-    author: PropTypes.string.isRequired,
-    likes: PropTypes.number.isRequired,
-    url: PropTypes.string.isRequired,
-    user: PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      username: PropTypes.string.isRequired,
-    })
-  })
+  blog: blogShape,
 }
 
-export default Blog
+const mapDispatchToProps = {
+  addLike
+}
+
+export default connect(null, mapDispatchToProps)(Blog)

@@ -1,11 +1,15 @@
 import React from 'react'
-import Blog from './components/Blog'
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
+import Blog, { blogShape } from './components/Blog'
 import Login from './components/Login'
-import Notification from './components/Notification'
+import Notification, { notificationShape } from './components/Notification'
 import AddBlog from './components/AddBlog'
 import blogService from './services/blogs'
 import loginService from './services/login'
 import Togglable from './components/Togglable'
+import { loadBlogs } from './actions/blogs'
+import { showNotification } from './actions/notifications'
 
 const appStyle = {
   backgroundColor: '#f0f0f0',
@@ -16,38 +20,25 @@ const appStyle = {
 }
 
 class App extends React.Component {
+  static propTypes = {
+    loadBlogs: PropTypes.func.isRequired,
+    showNotification: PropTypes.func.isRequired,
+    blogs: PropTypes.arrayOf(blogShape),
+    notifications: PropTypes.arrayOf(PropTypes.shape(notificationShape)),
+  }
+
   constructor(props) {
     super(props)
     this.logout = this.logout.bind(this)
     this.state = {
       username: '',
       password: '',
-      error: null,
       currentUser: null,
-      addedBlog: null,
-      blogs: []
     }
   }
 
   handleLoginChange = (event) => {
     this.setState({ [event.target.name]: event.target.value })
-  }
-
-  addLike = async (blog) => {
-    const updatedBlog = { ...blog, likes: blog.likes + 1 }
-    await blogService.update(updatedBlog)
-    const newBlogs = this.state.blogs.map(blog => blog._id === updatedBlog._id ? updatedBlog : blog)
-    this.setState({ blogs: newBlogs })
-  }
-
-  handleCreateBlog = (blog) => {
-    this.setState({
-      blogs: [ ...this.state.blogs, blog ],
-      addedBlog: blog,
-    })
-    setTimeout(() => {
-      this.setState({ addedBlog: null })
-    }, 5000)
   }
 
   logout() {
@@ -82,7 +73,7 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    blogService.getAll().then(blogs => this.setState({ blogs }))
+    this.props.loadBlogs()
 
     const loggedUserJSON = window.localStorage.getItem('currentUser')
     if (loggedUserJSON) {
@@ -93,15 +84,16 @@ class App extends React.Component {
   }
 
   render() {
-    const blogs = this.state.blogs.sort((a, b) => a.likes >= b.likes ? -1 : 1)
+    const blogs = this.props.blogs.sort((a, b) => a.likes >= b.likes ? -1 : 1)
     return (
       <div style={appStyle}>
-        {this.state.error !== null && (
-          <Notification error message={this.state.error} />
-        )}
-        {this.state.addedBlog !== null && (
-          <Notification message={`Added new blog ${this.state.addedBlog.title}!`} />
-        )}
+        {this.props.notifications.map((notification) => (
+          <Notification
+            key={notification.id}
+            error={notification.error}
+            message={notification.text}
+          />
+        ))}
         {this.state.currentUser === null && (
           <Login
             username={this.state.username}
@@ -121,12 +113,11 @@ class App extends React.Component {
               <Blog 
                 key={blog._id}
                 blog={blog} 
-                addLike={this.addLike}
                 deleteBlog={(!blog.user || this.state.currentUser.id === blog.user._id) ? this.deleteBlog : undefined}
               />
             ))}
             <Togglable buttonLabel="Add blog">
-              <AddBlog onCreate={this.handleCreateBlog} />
+              <AddBlog />
             </Togglable>
           </div>
         )}
@@ -135,4 +126,14 @@ class App extends React.Component {
   }
 }
 
-export default App
+const mapStateToProps = (state) => ({
+  blogs: state.blogs.blogs,
+  notifications: state.notifications.notifications,
+})
+
+const mapDispatchToProps = {
+  loadBlogs,
+  showNotification,
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App)

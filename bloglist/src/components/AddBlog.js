@@ -1,15 +1,19 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import blogService from '../services/blogs'
+import { addBlog } from '../actions/blogs'
+import { showNotification } from '../actions/notifications'
+
+const initialState = {
+  title: '',
+  author: '',
+  url: '',
+}
 
 class AddBlog extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      title: '',
-      author: '',
-      url: '',
-    }
+    this.state = initialState
     this.handleLoginChange = this.handleLoginChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
   }
@@ -20,15 +24,13 @@ class AddBlog extends Component {
 
   async handleSubmit(event) {
     event.preventDefault()
-    const blog = await blogService.create({
+    this.props.addBlog({
       title: this.state.title, 
       author: this.state.author, 
       url: this.state.url
     })
-
-    if (typeof this.props.onCreate === 'function') {
-      this.props.onCreate(blog)
-    }
+    this.props.showNotification(`Added new blog ${this.state.title}`)
+    this.setState(initialState)
   }
 
   render() {
@@ -45,7 +47,13 @@ class AddBlog extends Component {
 }
 
 AddBlog.propTypes = {
-  onCreate: PropTypes.func,
+  addBlog: PropTypes.func.isRequired,
+  showNotification: PropTypes.func.isRequired,
 }
 
-export default AddBlog
+const mapDispatchToProps = {
+  addBlog,
+  showNotification,
+}
+
+export default connect(null, mapDispatchToProps)(AddBlog)

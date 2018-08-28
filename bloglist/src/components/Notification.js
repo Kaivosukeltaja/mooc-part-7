@@ -17,9 +17,11 @@ const Notification = props => {
   return <div style={props.error ? errorStyle : notificationStyle}>{props.message}</div>
 }
 
-Notification.propTypes = {
+export const notificationShape = {
   message: PropTypes.string.isRequired,
   error: PropTypes.boolean,
 }
+
+Notification.propTypes = notificationShape
 
 export default Notification

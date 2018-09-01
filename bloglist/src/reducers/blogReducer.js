@@ -10,6 +10,8 @@ export default (state = initialState, action) => {
     return { ...state, blogs: [ ...state.blogs, action.blog ] }
   case 'BLOG_UPDATED':
     return { ...state, blogs: state.blogs.map(blog => blog._id === action.blog._id ? action.blog : blog) }
+  case 'DELETE_BLOG':
+    return { ...state, blogs: state.blogs.filter(b => b._id !== action.blog._id) }
   default:
     return state
   }

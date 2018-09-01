@@ -14,11 +14,11 @@ class AddBlog extends Component {
   constructor(props) {
     super(props)
     this.state = initialState
-    this.handleLoginChange = this.handleLoginChange.bind(this)
+    this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
-  handleLoginChange(event) {
+  handleChange(event) {
     this.setState({ [event.target.name]: event.target.value })    
   }
 
@@ -37,9 +37,9 @@ class AddBlog extends Component {
     return (
       <form onSubmit={this.handleSubmit}>
         <h2>Create new blog</h2>
-        Title <input name="title" value={this.state.title} onChange={this.handleLoginChange} /><br />
-        Author <input name="author" value={this.state.author} onChange={this.handleLoginChange} /><br />
-        URL <input name="url" value={this.state.url} onChange={this.handleLoginChange} /><br />
+        Title <input name="title" value={this.state.title} onChange={this.handleChange} /><br />
+        Author <input name="author" value={this.state.author} onChange={this.handleChange} /><br />
+        URL <input name="url" value={this.state.url} onChange={this.handleChange} /><br />
         <input type="submit" value="Create blog" />
       </form>
     )

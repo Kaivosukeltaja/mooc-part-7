@@ -24,6 +24,18 @@ export const loadBlogs = () => {
   }
 }
 
+export const deleteBlog = (blog) => {
+  return async (dispatch) => {
+    if (window.confirm(`Really delete ${blog.title} by ${blog.author}?`)) {
+      await blogService.deleteBlog(blog)
+      dispatch({
+        type: 'DELETE_BLOG',
+        blog,
+      })
+    }  
+  }
+}
+
 export const addLike = (blog) => {
   return async (dispatch) => {
     const updatedBlog = { ...blog, likes: blog.likes + 1 }

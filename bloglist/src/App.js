@@ -5,11 +5,10 @@ import Blog, { blogShape } from './components/Blog'
 import Login from './components/Login'
 import Notification, { notificationShape } from './components/Notification'
 import AddBlog from './components/AddBlog'
-import blogService from './services/blogs'
-import loginService from './services/login'
 import Togglable from './components/Togglable'
 import { loadBlogs } from './actions/blogs'
 import { showNotification } from './actions/notifications'
+import { logout, initUser } from './actions/users'
 
 const appStyle = {
   backgroundColor: '#f0f0f0',
@@ -23,64 +22,16 @@ class App extends React.Component {
   static propTypes = {
     loadBlogs: PropTypes.func.isRequired,
     showNotification: PropTypes.func.isRequired,
+    logout: PropTypes.func.isRequired,
+    initUser: PropTypes.func.isRequired,
+    currentUser: PropTypes.shape(),
     blogs: PropTypes.arrayOf(blogShape),
     notifications: PropTypes.arrayOf(PropTypes.shape(notificationShape)),
   }
 
-  constructor(props) {
-    super(props)
-    this.logout = this.logout.bind(this)
-    this.state = {
-      username: '',
-      password: '',
-      currentUser: null,
-    }
-  }
-
-  handleLoginChange = (event) => {
-    this.setState({ [event.target.name]: event.target.value })
-  }
-
-  logout() {
-    this.setState({ currentUser: null })
-    blogService.setToken(null)
-    window.localStorage.clear()
-  }
-
-  deleteBlog = async (blog) => {
-    if (window.confirm(`Really delete ${blog.title} by ${blog.author}?`)) {
-      await blogService.deleteBlog(blog)
-      this.setState({ blogs: this.state.blogs.filter(b => b._id !== blog._id) })
-    }
-  }
-
-  handleLoginSubmit = async (event) => {
-    event.preventDefault()
-    try {
-      const result = await loginService.doLogin({
-        username: this.state.username,
-        password: this.state.password
-      })
-      this.setState({ currentUser: result })
-      blogService.setToken(result.token)
-      window.localStorage.setItem('currentUser', JSON.stringify(result))
-    } catch (error) {
-      this.setState({ error: 'Invalid username or password!' })
-      setTimeout(() => {
-        this.setState({ error: null })
-      }, 5000)
-    }
-  }
-
   componentDidMount() {
     this.props.loadBlogs()
-
-    const loggedUserJSON = window.localStorage.getItem('currentUser')
-    if (loggedUserJSON) {
-      const currentUser = JSON.parse(loggedUserJSON)
-      this.setState({ currentUser })
-      blogService.setToken(currentUser.token)
-    }
+    this.props.initUser()
   }
 
   render() {
@@ -94,26 +45,20 @@ class App extends React.Component {
             message={notification.text}
           />
         ))}
-        {this.state.currentUser === null && (
-          <Login
-            username={this.state.username}
-            password={this.state.password}
-            onChange={this.handleLoginChange}
-            onSubmit={this.handleLoginSubmit}
-          />
+        {this.props.currentUser === null && (
+          <Login />
         )}
-        {!!this.state.currentUser && (
+        {!!this.props.currentUser && (
           <div className="bloglist">
             <h2>blogs</h2>
             <p>
-              {this.state.currentUser.name} logged in
-              <input type="button" value="logout" onClick={this.logout} />
+              {this.props.currentUser.name} logged in
+              <input type="button" value="logout" onClick={this.props.logout} />
             </p>
             {blogs.map(blog => (
               <Blog 
                 key={blog._id}
                 blog={blog} 
-                deleteBlog={(!blog.user || this.state.currentUser.id === blog.user._id) ? this.deleteBlog : undefined}
               />
             ))}
             <Togglable buttonLabel="Add blog">
@@ -129,11 +74,14 @@ class App extends React.Component {
 const mapStateToProps = (state) => ({
   blogs: state.blogs.blogs,
   notifications: state.notifications.notifications,
+  currentUser: state.users.currentUser,
 })
 
 const mapDispatchToProps = {
   loadBlogs,
   showNotification,
+  logout,
+  initUser,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App)

@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { addLike, deleteBlog } from '../actions/blogs'
+import { Link } from 'react-router-dom'
 
 const blogStyle = {
   backgroundColor: '#ffffff',
@@ -17,52 +17,16 @@ const blogHeadingStyle = {
   cursor: 'pointer',
 }
 
-const visibleDetails = {
-  display: 'block',
-}
-
-const hiddenDetails = {
-  display: 'none',
-}
-
-class Blog extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      showDetails: false,
-    }
-  }
-
-  toggleDetails = () => {
-    this.setState({ showDetails: !this.state.showDetails })
-  }
-  
-  render() {
-    return (
-      <div className="blog" style={blogStyle}>
-        <div
-          className="blog__title"
-          style={blogHeadingStyle}
-          onClick={this.toggleDetails}  
-        >
-          {this.props.blog.title} {this.props.blog.author}
-        </div>
-        <div className="blog__details" 
-          style={this.state.showDetails ? visibleDetails : hiddenDetails}
-        >
-          <div><a href={this.props.blog.url}>{this.props.blog.url}</a></div>
-          { this.props.blog.user && 
-            <div>Added by { this.props.blog.user.name }</div>
-          }
-          <div>Likes: {this.props.blog.likes} <button onClick={this.props.addLike}>Like</button></div>
-          { (!this.props.blog.user || this.props.currentUser.id === this.props.blog.user._id) &&
-            <button onClick={this.props.deleteBlog}>Delete</button>
-          }
-        </div>
-      </div>
-    )
-  }
-}
+const Blog = (props) => (
+  <div style={blogStyle}>
+    <Link
+      style={blogHeadingStyle}
+      to={`/blogs/${props.blog._id}`}
+    >
+      {props.blog.title} - {props.blog.author}
+    </Link>
+  </div>
+)
 
 export const blogShape = PropTypes.shape({
   title: PropTypes.string.isRequired,
@@ -76,8 +40,6 @@ export const blogShape = PropTypes.shape({
 })
 
 Blog.propTypes = {
-  addLike: PropTypes.func.isRequired,
-  deleteBlog: PropTypes.func,
   currentUser: PropTypes.shape(),
   blog: blogShape,
 }
@@ -86,9 +48,4 @@ const mapStateToProps = (state) => ({
   currentUser: state.users.currentUser,
 })
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
-  addLike: () => dispatch(addLike(ownProps.blog)),
-  deleteBlog: () => dispatch(deleteBlog(ownProps.blog)),
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(Blog)
+export default connect(mapStateToProps)(Blog)

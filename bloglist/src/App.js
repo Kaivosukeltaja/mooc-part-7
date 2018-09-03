@@ -1,14 +1,18 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import Blog, { blogShape } from './components/Blog'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { blogShape } from './components/Blog'
 import Login from './components/Login'
 import Notification, { notificationShape } from './components/Notification'
-import AddBlog from './components/AddBlog'
-import Togglable from './components/Togglable'
+import Navigation from './components/Navigation'
 import { loadBlogs } from './actions/blogs'
 import { showNotification } from './actions/notifications'
-import { logout, initUser } from './actions/users'
+import { logout, initUser, loadUsers } from './actions/users'
+import BlogsPage from './pages/blogs'
+import BlogPage from './pages/blog'
+import UsersPage from './pages/users'
+import UserPage from './pages/user'
 
 const appStyle = {
   backgroundColor: '#f0f0f0',
@@ -21,6 +25,7 @@ const appStyle = {
 class App extends React.Component {
   static propTypes = {
     loadBlogs: PropTypes.func.isRequired,
+    loadUsers: PropTypes.func.isRequired,
     showNotification: PropTypes.func.isRequired,
     logout: PropTypes.func.isRequired,
     initUser: PropTypes.func.isRequired,
@@ -32,10 +37,10 @@ class App extends React.Component {
   componentDidMount() {
     this.props.loadBlogs()
     this.props.initUser()
+    this.props.loadUsers()
   }
 
   render() {
-    const blogs = this.props.blogs.sort((a, b) => a.likes >= b.likes ? -1 : 1)
     return (
       <div style={appStyle}>
         {this.props.notifications.map((notification) => (
@@ -49,22 +54,15 @@ class App extends React.Component {
           <Login />
         )}
         {!!this.props.currentUser && (
-          <div className="bloglist">
-            <h2>blogs</h2>
-            <p>
-              {this.props.currentUser.name} logged in
-              <input type="button" value="logout" onClick={this.props.logout} />
-            </p>
-            {blogs.map(blog => (
-              <Blog 
-                key={blog._id}
-                blog={blog} 
-              />
-            ))}
-            <Togglable buttonLabel="Add blog">
-              <AddBlog />
-            </Togglable>
-          </div>
+          <Router>
+            <div className="bloglist">
+              <Navigation />
+              <Route exact path="/" render={() => <BlogsPage />} />
+              <Route exact path="/users" render={() => <UsersPage />} />
+              <Route path="/users/:username" render={({match}) => <UserPage username={match.params.username} />} />
+              <Route path="/blogs/:id" render={({match}) => <BlogPage id={match.params.id} />} />
+            </div>
+          </Router>
         )}
       </div>
     )
@@ -79,6 +77,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {
   loadBlogs,
+  loadUsers,
   showNotification,
   logout,
   initUser,

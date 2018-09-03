@@ -1,4 +1,5 @@
 import blogService from '../services/blogs'
+import { showNotification } from './notifications'
 
 export const addBlog = ({ title, author, url }) => {
   return async (dispatch) => {
@@ -44,6 +45,18 @@ export const addLike = (blog) => {
       type: 'BLOG_UPDATED',
       blog: updatedBlog,
     })  
+  }
+}
+
+export const addComment = (blog, comment) => {
+  return async (dispatch) => {
+    const updatedBlog = await blogService.addComment(blog, comment)
+    dispatch({
+      type: 'COMMENT_ADDED',
+      blog: updatedBlog,
+      comment
+    })
+    dispatch(showNotification(`Added comment ${comment}`))
   }
 }
 

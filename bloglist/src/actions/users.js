@@ -1,6 +1,17 @@
 import blogService from '../services/blogs'
+import userService from '../services/users'
 import loginService from '../services/login'
 import { showNotification } from './notifications'
+
+export const loadUsers = () => {
+  return async (dispatch) => {
+    const users = await userService.getAll()
+    dispatch({
+      type: 'USERS_LOADED',
+      users,
+    })
+  }
+}
 
 export const initUser = () => {
   return (dispatch) => {

@@ -25,6 +25,7 @@ app.use(extractToken)
 app.use('/api/blogs', blogsRouter)
 app.use('/api/users', usersRouter)
 app.use('/api/login', loginRouter)
+app.use(express.static('build'))
 
 const PORT = config.port
 

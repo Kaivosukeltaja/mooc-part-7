@@ -13,7 +13,6 @@ exports[`<Blog /> renders correctly 1`] = `
   }
 >
   <a
-    href={undefined}
     onClick={[Function]}
     style={
       Object {

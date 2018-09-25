@@ -38,7 +38,7 @@ const initialState = {
   password: '',
 }
 
-class Login extends React.Component {
+export class Login extends React.Component {
   constructor(props) {
     super(props)
     this.state = initialState

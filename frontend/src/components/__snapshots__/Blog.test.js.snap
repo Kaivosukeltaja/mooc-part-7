@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Blog /> renders correctly 1`] = `
+<div
+  style={
+    Object {
+      "backgroundColor": "#ffffff",
+      "borderRadius": "4px",
+      "color": "#333333",
+      "margin": "0.25em 0",
+      "padding": "1em",
+    }
+  }
+>
+  <a
+    href={undefined}
+    onClick={[Function]}
+    style={
+      Object {
+        "cursor": "pointer",
+        "fontSize": "1.25em",
+        "fontWeight": "bold",
+      }
+    }
+  >
+    Test blog
+     - 
+    Test Author
+  </a>
+</div>
+`;

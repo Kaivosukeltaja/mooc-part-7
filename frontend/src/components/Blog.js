@@ -17,7 +17,7 @@ const blogHeadingStyle = {
   cursor: 'pointer',
 }
 
-const Blog = (props) => (
+export const Blog = (props) => (
   <div style={blogStyle}>
     <Link
       style={blogHeadingStyle}

@@ -1,0 +1,68 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Login /> renders correctly 1`] = `
+<form
+  onSubmit={[Function]}
+  style={
+    Object {
+      "alignItems": "center",
+      "display": "flex",
+      "height": "100%",
+      "justifyContent": "center",
+    }
+  }
+>
+  <div
+    style={
+      Object {
+        "alignItems": "stretch",
+        "backgroundColor": "#ffffff",
+        "borderRadius": "4px",
+        "boxShadow": "3px 3px 3px rgba(0,0,0,0.25)",
+        "display": "flex",
+        "flexDirection": "column",
+        "padding": "1em 2em",
+      }
+    }
+  >
+    <h2>
+      Log in to blog application
+    </h2>
+    <input
+      name="username"
+      onChange={[Function]}
+      placeholder="Username"
+      style={
+        Object {
+          "margin": "0.5em 0",
+          "padding": "0.5em",
+        }
+      }
+      value=""
+    />
+    <input
+      name="password"
+      onChange={[Function]}
+      placeholder="Password"
+      style={
+        Object {
+          "margin": "0.5em 0",
+          "padding": "0.5em",
+        }
+      }
+      type="password"
+      value=""
+    />
+    <input
+      style={
+        Object {
+          "margin": "0.5em 0",
+          "padding": "1em",
+        }
+      }
+      type="submit"
+      value="Log in"
+    />
+  </div>
+</form>
+`;

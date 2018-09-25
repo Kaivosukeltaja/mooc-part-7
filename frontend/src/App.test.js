@@ -1,17 +1,21 @@
 import React from 'react'
-import { mount } from 'enzyme'
+// import { mount } from 'enzyme'
+import { createMockStore } from 'redux-test-utils'
+import { mountWithStore } from 'enzyme-redux'
 import App from './App'
 import Blog from './components/Blog'
 import Login from './components/Login'
 jest.mock('./services/blogs')
 import blogService from './services/blogs'
+import { mockUser, mockState, mockLoggedInState } from './utils/mockStore'
 
 describe('<App />', () => {
   let app
 
   describe('when not logged in', () => {
     beforeAll(() => {
-      app = mount(<App />)
+      const mockStore = createMockStore(mockState)
+      app = mountWithStore(<App />, mockStore)
     })
 
     it('renders no blogs and just the login form', () => {
@@ -25,14 +29,10 @@ describe('<App />', () => {
 
   describe('when logged in', () => {
     beforeAll(() => {
-      const user = {
-        username: 'foo',
-        name: 'Foo',
-        id: '123456',
-        token: 'fake token',
-      }
-      localStorage.setItem('currentUser', JSON.stringify(user))      
-      app = mount(<App />)
+
+      localStorage.setItem('currentUser', JSON.stringify(mockUser))
+      const mockStore = createMockStore(mockLoggedInState)
+      app = mountWithStore(<App />, mockStore)
     })
 
     it('renders the blogs and no login form', () => {

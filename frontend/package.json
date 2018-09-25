@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "axios": "^0.17.1",
+    "enzyme-redux": "^0.2.1",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-navigation": "^2.11.2",
@@ -11,6 +12,7 @@
     "react-router-dom": "^4.3.1",
     "react-scripts": "1.0.17",
     "redux": "^4.0.0",
+    "redux-test-utils": "^0.2.2",
     "redux-thunk": "^2.3.0"
   },
   "scripts": {
@@ -25,6 +27,7 @@
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "eslint": "^5.2.0",
-    "eslint-plugin-react": "^7.10.0"
+    "eslint-plugin-react": "^7.10.0",
+    "react-mock-router": "^1.0.15"
   }
 }

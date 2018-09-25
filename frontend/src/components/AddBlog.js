@@ -28,7 +28,7 @@ const initialState = {
   url: '',
 }
 
-class AddBlog extends Component {
+export class AddBlog extends Component {
   constructor(props) {
     super(props)
     this.state = initialState

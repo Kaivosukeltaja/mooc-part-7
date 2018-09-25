@@ -1,0 +1,71 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<AddBlog /> renders correctly 1`] = `
+<form
+  onSubmit={[Function]}
+>
+  <h2>
+    Create new blog
+  </h2>
+  <input
+    name="title"
+    onChange={[Function]}
+    placeholder="Title"
+    style={
+      Object {
+        "display": "block",
+        "margin": "0.25em 0",
+        "maxWidth": "90%",
+        "padding": "1em",
+      }
+    }
+    value=""
+  />
+  <br />
+  <input
+    name="author"
+    onChange={[Function]}
+    placeholder="Author"
+    style={
+      Object {
+        "display": "block",
+        "margin": "0.25em 0",
+        "maxWidth": "90%",
+        "padding": "1em",
+      }
+    }
+    value=""
+  />
+  <br />
+  <input
+    name="url"
+    onChange={[Function]}
+    placeholder="URL"
+    style={
+      Object {
+        "display": "block",
+        "margin": "0.25em 0",
+        "maxWidth": "90%",
+        "padding": "1em",
+      }
+    }
+    value=""
+  />
+  <br />
+  <input
+    style={
+      Object {
+        "backgroundColor": "#229922",
+        "borderRadius": "4px",
+        "borderWidth": 0,
+        "color": "#ffffff",
+        "fontWeight": "bold",
+        "margin": "0.25em 0",
+        "padding": "1em",
+      }
+    }
+    type="submit"
+    value="Create blog"
+  />
+</form>
+`;

@@ -1,8 +1,19 @@
 import React from 'react'
-import { shallow } from 'enzyme'
-import Blog from './Blog'
+// import { shallow } from 'enzyme'
+import { shallowWithStore } from 'enzyme-redux'
+import { createMockStore } from 'redux-test-utils'
+import renderer from 'react-test-renderer'
+import MockRouter from 'react-mock-router'
+import { Link } from 'react-router-dom'
+import { Blog } from './Blog'
 
-describe.only('<Blog />', () => {
+const mockState = {
+  users: {
+    currentUser: null,
+  }
+}
+
+describe('<Blog />', () => {
   const blog = {
     title: 'Test blog',
     author: 'Test Author',
@@ -14,27 +25,23 @@ describe.only('<Blog />', () => {
     }
   }
 
-  const deleteBlog = jest.fn()
-  const addLike = jest.fn()
+  const mockStore = createMockStore(mockState)
 
-  it('renders only title by default', () => {
-    const blogComponent = shallow(<Blog blog={blog} deleteBlog={deleteBlog} addLike={addLike} />)
-    
-    const titleDiv = blogComponent.find('.blog__title')
-    const detailsDiv = blogComponent.find('.blog__details')
+  it('renders correctly', () => {
+    const tree = renderer
+      .create(<MockRouter>
+        <Blog blog={blog} />
+      </MockRouter>)
+      .toJSON()
+    expect(tree).toMatchSnapshot()
 
-    expect(titleDiv.text()).toContain(`${blog.title} ${blog.author}`)
-    expect(detailsDiv.getElement().props.style).toEqual({ display: 'none' })
   })
 
-  it('shows details when title is clicked', () => {
-    const blogComponent = shallow(<Blog blog={blog} deleteBlog={deleteBlog} addLike={addLike} />)
+  it('contains a link to the article', () => {
+    const blogComponent = shallowWithStore(<Blog blog={blog} />, mockStore)
     
-    const titleDiv = blogComponent.find('.blog__title')
-    titleDiv.simulate('click')
-    const detailsDiv = blogComponent.find('.blog__details')
+    const titleLinks = blogComponent.find(Link)
 
-    expect(detailsDiv.getElement().props.style).toEqual({ display: 'block' })
-    expect(detailsDiv.text()).toContain(`Likes: ${blog.likes}`)
+    expect(titleLinks.length).toBe(1)
   })
 })

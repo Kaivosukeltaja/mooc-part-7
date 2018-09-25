@@ -19,7 +19,7 @@ const Notification = props => {
 
 export const notificationShape = {
   message: PropTypes.string.isRequired,
-  error: PropTypes.boolean,
+  error: PropTypes.bool,
 }
 
 Notification.propTypes = notificationShape

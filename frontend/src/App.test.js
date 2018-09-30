@@ -7,7 +7,7 @@ import Blog from './components/Blog'
 import Login from './components/Login'
 jest.mock('./services/blogs')
 import blogService from './services/blogs'
-import { mockUser, mockState, mockLoggedInState } from './utils/mockStore'
+import { mockUser, mockState, mockLoggedInState } from './testutils/mockStore'
 
 describe('<App />', () => {
   let app

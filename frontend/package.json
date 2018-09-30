@@ -30,5 +30,10 @@
     "eslint-plugin-react": "^7.10.0",
     "puppeteer": "^1.8.0",
     "react-mock-router": "^1.0.15"
-  }
+  },
+  "browserslist": [
+    ">0.25%",
+    "not op_mini all",
+    "ie 11"
+  ]
 }

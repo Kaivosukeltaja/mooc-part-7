@@ -28,7 +28,6 @@
     "enzyme-adapter-react-16": "^1.1.1",
     "eslint": "^5.2.0",
     "eslint-plugin-react": "^7.10.0",
-    "puppeteer": "^1.8.0",
     "react-mock-router": "^1.0.15"
   },
   "browserslist": [

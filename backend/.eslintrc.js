@@ -8,10 +8,13 @@ module.exports = {
     },
     "extends": "eslint:recommended",
     "globals": {
+        "page": true,
+        "it": true,
         "test": true,
         "expect": true,
         "describe": true,
         "beforeAll": true,
+        "beforeEach": true,
         "afterAll": true
     },
     "rules": {
@@ -29,6 +32,7 @@ module.exports = {
         ],
         "eqeqeq": "error",
         "no-trailing-spaces": "error",
+        "prefer-template": "error",
         "object-curly-spacing": [
             "error", "always"
         ],

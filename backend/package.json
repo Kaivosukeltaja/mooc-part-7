@@ -20,6 +20,11 @@
     "url": "https://github.com/Kaivosukeltaja/mooc-blogs/issues"
   },
   "homepage": "https://github.com/Kaivosukeltaja/mooc-blogs#readme",
+  "jest": {
+    "preset": "jest-puppeteer",
+    "globalSetup": "./tests/global-setup.js",
+    "globalTeardown": "./tests/global-teardown.js"
+  },
   "dependencies": {
     "bcrypt": "^3.0.0",
     "body-parser": "^1.18.3",
@@ -33,8 +38,11 @@
     "cross-env": "^5.1.6",
     "eslint": "^4.19.1",
     "jest": "^23.1.0",
+    "jest-environment-puppeteer": "^3.4.0",
+    "jest-puppeteer": "^3.4.0",
     "nodemon": "^1.17.5",
     "prettier": "^1.13.5",
+    "puppeteer": "^1.8.0",
     "supertest": "^3.1.0"
   }
 }

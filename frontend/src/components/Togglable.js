@@ -30,7 +30,7 @@ class Togglable extends React.Component {
     const showWhenVisible = { display: this.state.visible ? '' : 'none' }
 
     return (
-      <div>
+      <div className={this.props.className}>
         <div style={hideWhenVisible}>
           <button style={styles.button} onClick={this.toggleVisibility}>{this.props.buttonLabel}</button>
         </div>
@@ -45,6 +45,7 @@ class Togglable extends React.Component {
 
 Togglable.propTypes = {
   buttonLabel: PropTypes.string.isRequired,
+  className: PropTypes.string,
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node

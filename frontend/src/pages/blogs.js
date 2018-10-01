@@ -29,7 +29,7 @@ class Blogs extends React.Component {
             blog={blog} 
           />
         ))}
-        <Togglable buttonLabel="Add blog">
+        <Togglable className="add-blog-button" buttonLabel="Add blog">
           <AddBlog />
         </Togglable>
       </div>

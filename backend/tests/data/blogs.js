@@ -64,4 +64,9 @@ const listWithOneBlog = [
   }
 ]
 
-module.exports = { listWithManyBlogs, listWithOneBlog }
+const testUserCredentials = {
+  username: 'blogs-api-test-user',
+  password: 'testuserpw123'
+}
+
+module.exports = { listWithManyBlogs, listWithOneBlog, testUserCredentials }

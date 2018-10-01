@@ -14,7 +14,7 @@ const errorStyle = {
 }
 
 const Notification = props => {
-  return <div style={props.error ? errorStyle : notificationStyle}>{props.message}</div>
+  return <div className="notification" style={props.error ? errorStyle : notificationStyle}>{props.message}</div>
 }
 
 export const notificationShape = {

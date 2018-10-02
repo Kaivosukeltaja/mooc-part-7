@@ -8,14 +8,14 @@ describe('blog app', () => {
       }
     })
     it('renders login page', async () => {
-      await page.goto('http://localhost:3002')
+      await page.goto('http://localhost:3003')
       const textContent = await page.$eval('body', el => el.textContent)
 
       expect(textContent.includes('Log in to blog application')).toBe(true)
     })
 
     it('notifies of faulty login attempt', async () => {
-      await page.goto('http://localhost:3002')
+      await page.goto('http://localhost:3003')
 
       // Fill out login form
       await page.type('input[name=username]', 'nonexisting')
@@ -29,7 +29,7 @@ describe('blog app', () => {
     })
 
     it('allows user to log in', async () => {
-      await page.goto('http://localhost:3002')
+      await page.goto('http://localhost:3003')
 
       // Fill out login form
       await page.type('input[name=username]', testUserCredentials.username)
@@ -45,14 +45,14 @@ describe('blog app', () => {
 
   describe('when user is logged in', () => {
     it('renders the blog list', async () => {
-      await page.goto('http://localhost:3002')
+      await page.goto('http://localhost:3003')
       await page.waitForSelector('.bloglist')
       const textContent = await page.$eval('body', el => el.textContent)
       expect(textContent.includes('blogs')).toBe(true)
     })
 
     it('can add a new blog', async () => {
-      await page.goto('http://localhost:3002')
+      await page.goto('http://localhost:3003')
       await page.waitForSelector('.bloglist')
       await page.click('.add-blog-button button')
       await page.type('input[name=title]', 'Puppeteer test blog')

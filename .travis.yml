@@ -11,6 +11,7 @@ before_deploy:
   - cd backend
 deploy:
   provider: heroku
+  app: mooc-part-7
   run:
     - "npm run start"
   skip_cleanup: true

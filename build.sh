@@ -1,9 +1,9 @@
 #!/bin/bash
 set -ev
 cd frontend
-npm install
-npm run test
-npm run build
+yarn
+yarn test
+yarn build
 cd ../backend
-npm install
-npm run test
+yarn
+yarn test

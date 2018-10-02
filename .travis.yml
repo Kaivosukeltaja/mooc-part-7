@@ -13,7 +13,7 @@ deploy:
   provider: heroku
   app: mooc-part-7
   run:
-    - "npm run start"
+    - "yarn start"
   skip_cleanup: true
   api_key:
     secure: vEe8S88XDEWR15JktMcRwwv0iLkmJW2wpxpH6Bsxt1PSEz66lTUwtylDCMyTgJc2iwJiqlruQ+8rKvQbiOhKrxm8Otrk3YDCJfev742MHwRLMCssdPe22n7RfYWntjUafHNhXF8UW1AqJ5x0KZ9tNqaPRcWZH1QboR0TxjuyiGoRcltFuTR2l3X514zoIMhT/Bo486tAxJnRYf9Pl5HK4YZ2Si72nvJQBtR1C08Z8Uh0V1BzqcrgtothDsR5B1BQjNoGj74G8X8dAFTvHkIh/7rpsnEYOam6WHftnlxJJZaFYvVzaxUnnzQEGJs4o9M3C5N3hbX/T4vywhCkLIchkCi/Fpv5nsMqbqx8xskZaD8BM/veiLlh/XDBlkI8kbTcd6LEH3+9O4F5j3d35glWzjyvoOPDltPgkeVft1y8Yd0XmZ5m+qpZHYwv55CrHV4l8kERcGX0d8WglnUenUQrew/EeJH7F1XWAIquNq4QSewFebvdxKvn80Pwa4iXaHqwMHhd6yZKcBxsiNeYOsURtEbnFbhhYkWhAV5QXLOnUuh1p4ep72BlLkkz+/ZWGYbuqhRDLqN5e/+j6yhCaiOhz1ItoyjcYpT52HtiQtrAXR/okkN4cCyV8Xrf1roKBiHSTHmP6fiLu9YQ39h58VZmC7i/P9C7jkqVDH0m1FvcpKs=

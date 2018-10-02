@@ -36,6 +36,7 @@ server.listen(PORT, () => {
 })
 
 server.on('close', () => {
+  console.log('Server is going bye-bye')
   mongoose.connection.close()
 })
 
